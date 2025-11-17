@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Add Product</title>
+    <style>
+        body { font-family: Arial; padding: 20px; background: #f3f3f3; }
+        form { background: #fff; padding: 20px; width: 350px; border-radius: 8px; }
+        input, button { width: 100%; margin-top: 10px; padding: 8px; }
+        button { background: #007bff; color: white; border: none; cursor: pointer; }
+        button:hover { background: #0056b3; }
+    </style>
+</head>
+<body>
+
+<h2>Add Product</h2>
+
+<form id="productForm">
+    <input type="text" id="name" placeholder="Car Name" required>
+    <input type="text" id="description" placeholder="Description" required>
+    <input type="text" id="brand" placeholder="Brand" required>
+    <input type="number" id="price" placeholder="Price" required>
+    <input type="text" id="category" placeholder="Category" required>
+    <input type="date" id="releasedate" required>
+    <input type="text" id="avalabilty" placeholder="true / false" required>
+    <input type="number" id="qyantity" placeholder="Quantity" required>
+    <button type="submit">Add Product</button>
+</form>
+
+<script>
+    document.getElementById("productForm").addEventListener("submit", function(event) {
+        event.preventDefault();
+
+        const product = {
+            name: document.getElementById("name").value,
+            description: document.getElementById("description").value,
+            brand: document.getElementById("brand").value,
+            price: document.getElementById("price").value,
+            category: document.getElementById("category").value,
+            releasedate: document.getElementById("releasedate").value,
+            avalabilty: document.getElementById("avalabilty").value === "true",
+            qyantity: document.getElementById("qyantity").value
+        };
+
+        fetch("http://localhost:8080/product/add", {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify(product)
+        })
+        .then(res => res.text())
+        .then(data => alert("✅ " + data))
+        .catch(err => alert("❌ Error: " + err));
+    });
+</script>
+
+</body>
+</html>
